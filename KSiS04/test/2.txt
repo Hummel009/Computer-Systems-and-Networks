@@ -1,0 +1,6 @@
+ftp
+open 127.0.0.1 1025
+amogus
+sus
+send 2.txt
+get 1.txt
