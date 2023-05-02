@@ -10,11 +10,10 @@ import java.awt.Color
 import java.awt.EventQueue
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
-import java.net.InetAddress
 import javax.swing.JFrame
 
-class ClientGUI(address: String, port: Int) {
-	private var client = Client(this, address, port)
+class ClientGUI(serverIP: String, serverPort: Int) {
+	private var client = Client(this, serverIP, serverPort)
 	var gameFrame: JFrame = JFrame("Chess")
 	var mainMenu: PanelMenu = PanelMenu()
 	lateinit var boardPanel: PanelBoard

@@ -7,7 +7,7 @@ import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.net.Socket
 
-class Client(var game: ClientGUI, private var address: String, private var port: Int) {
+class Client(var game: ClientGUI, private var serverIP: String, private var serverPort: Int) {
 	var isPaired = false
 	var team = PieceTeams.NO_COLOR
 	lateinit var socket: Socket
@@ -17,8 +17,8 @@ class Client(var game: ClientGUI, private var address: String, private var port:
 
 	fun init() {
 		try {
-			println("Connecting to the server $address:$port")
-			socket = Socket(address, port)
+			println("Connecting to the server $serverIP:$serverPort")
+			socket = Socket(serverIP, serverPort)
 			toServer = ObjectOutputStream(socket.getOutputStream())
 			fromServer = ObjectInputStream(socket.getInputStream())
 			listenThread = ClientListenThread(this)

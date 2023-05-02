@@ -3,10 +3,8 @@ package hummel
 import hummel.game.gui.ClientGUI
 import hummel.side_server.Server
 import java.awt.BorderLayout
-import java.awt.Dimension
 import java.awt.EventQueue
 import java.awt.GridLayout
-import java.net.InetAddress
 import javax.swing.*
 import javax.swing.border.EmptyBorder
 
@@ -39,17 +37,15 @@ class GUI : JFrame() {
 		panelContent.layout = GridLayout(0, 1, 0, 0)
 		contentPane = panelContent
 
-		val addressPanel = JPanel()
-		val addressDesc = JLabel("Address:")
-		addressDesc.preferredSize = Dimension(60, addressDesc.preferredSize.height)
-		val addressValue = JTextField(24)
-		addressValue.text = "127.0.0.1"
-		addressPanel.add(addressDesc)
-		addressPanel.add(addressValue)
+		val ipPanel = JPanel()
+		val ipDesc = JLabel("IP:")
+		val ipValue = JTextField(24)
+		ipValue.text = "127.0.0.1"
+		ipPanel.add(ipDesc)
+		ipPanel.add(ipValue)
 
 		val portPanel = JPanel()
 		val portDesc = JLabel("Port:")
-		portDesc.preferredSize = Dimension(60, portDesc.preferredSize.height)
 		val portValue = JTextField(24)
 		portValue.text = "5000"
 		portPanel.add(portDesc)
@@ -59,11 +55,11 @@ class GUI : JFrame() {
 		val buttonServer = JButton("Start Server")
 		val buttonClient = JButton("Start Client")
 		buttonServer.addActionListener { startServer(portValue) }
-		buttonClient.addActionListener { startClient(addressValue, portValue) }
+		buttonClient.addActionListener { startClient(ipValue, portValue) }
 		buttonPanel.add(buttonServer)
 		buttonPanel.add(buttonClient)
 
-		panelContent.add(addressPanel)
+		panelContent.add(ipPanel)
 		panelContent.add(portPanel)
 		panelContent.add(buttonPanel)
 
@@ -73,11 +69,11 @@ class GUI : JFrame() {
 	private fun startServer(portValue: JTextField) {
 		val server = Server(portValue.text.toInt())
 		server.listenClientConnectionRequests()
-		println("Server is ON; port: ${portValue.text}")
+		println("Server ${portValue.text} is ON")
 	}
 
-	private fun startClient(addressValue: JTextField, portValue: JTextField) {
-		val table1 = ClientGUI(addressValue.text, portValue.text.toInt())
+	private fun startClient(ipValue: JTextField, portValue: JTextField) {
+		val table1 = ClientGUI(ipValue.text, portValue.text.toInt())
 		table1.init()
 	}
 }
