@@ -20,7 +20,7 @@ object UtilBoard {
 	private val imageCache: MutableMap<String, ImageIcon> = HashMap()
 
 	fun getImageOfTeamPiece(team: PieceTeams, pieceType: PieceTypes?): ImageIcon? {
-		var imagePath = "src/main/kotlin/hummel/game/img/"
+		var imagePath = "src/hummel/game/img/"
 		if (pieceType == null) {
 			imagePath += "transparent.png"
 		} else {

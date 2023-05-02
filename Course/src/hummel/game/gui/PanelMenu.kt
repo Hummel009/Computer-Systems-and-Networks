@@ -7,8 +7,8 @@ import javax.swing.JPanel
 class PanelMenu : JPanel() {
 	val infoLBL = JLabel()
 	val playBTN = JLabel()
-	val playIcon = ImageIcon("src/main/kotlin/hummel/game/img/icon.png")
-	val playIconHover = ImageIcon("src/main/kotlin/hummel/game/img/icon_hover.png")
+	val playIcon = ImageIcon("src/hummel/game/img/icon.png")
+	val playIconHover = ImageIcon("src/hummel/game/img/icon_hover.png")
 
 	fun init() {
 		playBTN.icon = playIcon
