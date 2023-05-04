@@ -50,6 +50,9 @@ class PanelTile(boardPanel: PanelBoard, var coordinate: Coordinate, chessBoard: 
 					if (isValidMove(chessBoard, destinationTile)) {
 						val move = Move(chessBoard, chessBoard.chosenTile, destinationTile)
 						chessBoard.currentPlayer.makeMove(chessBoard, move)
+						if (move.hasKilledPiece()) {
+							client.game.bottomGameMenu.killedPiecesList.add(move.killedPiece.toString())
+						}
 						val msg = Message(Message.MessageTypes.MOVE)
 						val movement = MovementMessage()
 						movement.currentCoordinate = move.currentTile.coordinate
