@@ -23,8 +23,8 @@ class PanelBoard(private var chessBoard: Board, private var client: Client) : JP
 	fun updateBoardGUI(board: Board) {
 		for (i in 0 until Data.ROW_COUNT) {
 			for (j in 0 until Data.ROW_TILE_COUNT) {
-				boardTiles[i][j]!!.assignTileColor(board)
-				boardTiles[i][j]!!.assignTilePieceIcon(board)
+				(boardTiles[i][j] ?: return).assignTileColor(board)
+				(boardTiles[i][j] ?: return).assignTilePieceIcon(board)
 			}
 		}
 	}
