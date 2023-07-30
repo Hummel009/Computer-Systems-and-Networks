@@ -44,14 +44,14 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 			controlOutWriter = PrintWriter(controlSocket.getOutputStream(), true)
 			sendMsgToClient("220 Welcome to the COMP4621 FTP-Server")
 			while (!quitCommandLoop) {
-				executeCommand(controlIn!!.readLine())
+				executeCommand((controlIn ?: return).readLine())
 			}
 		} catch (e: Exception) {
 			e.printStackTrace()
 		} finally {
 			try {
-				controlIn!!.close()
-				controlOutWriter!!.close()
+				(controlIn ?: return).close()
+				(controlOutWriter ?: return).close()
 				controlSocket.close()
 				debugOutput("Sockets closed and worker stopped")
 			} catch (e: IOException) {
@@ -90,15 +90,15 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun sendMsgToClient(msg: String) {
-		controlOutWriter!!.println(msg)
+		(controlOutWriter ?: return).println(msg)
 	}
 
 	private fun sendDataMsgToClient(msg: String?) {
-		if (dataConnection == null || dataConnection!!.isClosed) {
+		if (dataConnection == null || (dataConnection ?: return).isClosed) {
 			sendMsgToClient("425 No data connection was established")
 			debugOutput("Cannot send message, because no data connection is established")
 		} else {
-			dataOutWriter!!.print(
+			(dataOutWriter ?: return).print(
 				"""
 	$msg
 	
@@ -110,8 +110,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	private fun openDataConnectionPassive(port: Int) {
 		try {
 			dataSocket = ServerSocket(port)
-			dataConnection = dataSocket!!.accept()
-			dataOutWriter = PrintWriter(dataConnection!!.getOutputStream(), true)
+			dataConnection = (dataSocket ?: return).accept()
+			dataOutWriter = PrintWriter((dataConnection ?: return).getOutputStream(), true)
 			debugOutput("Data connection - Passive Mode - established")
 		} catch (e: IOException) {
 			debugOutput("Could not create data connection.")
@@ -122,7 +122,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	private fun openDataConnectionActive(ipAddress: String, port: Int) {
 		try {
 			dataConnection = Socket(ipAddress, port)
-			dataOutWriter = PrintWriter(dataConnection!!.getOutputStream(), true)
+			dataOutWriter = PrintWriter((dataConnection ?: return).getOutputStream(), true)
 			debugOutput("Data connection - Active Mode - established")
 		} catch (e: IOException) {
 			debugOutput("Could not connect to client data socket")
@@ -132,10 +132,10 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 
 	private fun closeDataConnection() {
 		try {
-			dataOutWriter!!.close()
-			dataConnection!!.close()
+			(dataOutWriter ?: return).close()
+			(dataConnection ?: return).close()
 			if (dataSocket != null) {
-				dataSocket!!.close()
+				(dataSocket ?: return).close()
 			}
 			debugOutput("Data connection was closed")
 		} catch (e: IOException) {
@@ -148,7 +148,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleUser(username: String?) {
-		if (username!!.lowercase(Locale.getDefault()) == validUser) {
+		if ((username ?: return).lowercase(Locale.getDefault()) == validUser) {
 			sendMsgToClient("331 User name okay, need password")
 			currentUserStatus = UserStatus.ENTERED_USER_NAME
 		} else if (currentUserStatus == UserStatus.LOGGED_IN) {
@@ -192,7 +192,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleNlst(args: String?) {
-		if (dataConnection == null || dataConnection!!.isClosed) {
+		if (dataConnection == null || (dataConnection ?: return).isClosed) {
 			sendMsgToClient("425 No data connection was established")
 		} else {
 			val dirContent = nlstHelper(args)
@@ -228,7 +228,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handlePort(args: String?) {
-		val stringSplit = args!!.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		val stringSplit = (args ?: return).split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 		val hostName = stringSplit[0] + "." + stringSplit[1] + "." + stringSplit[2] + "." + stringSplit[3]
 		val p = stringSplit[4].toInt() * 256 + stringSplit[5].toInt()
 
@@ -237,7 +237,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleEPort(args: String?) {
-		val splitArgs = args!!.split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		val splitArgs = (args ?: return).split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 		val ipAddress = splitArgs[2]
 		val port = splitArgs[3].toInt()
 		openDataConnectionActive(ipAddress, port)
@@ -309,7 +309,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleType(mode: String?) {
-		if (mode!!.uppercase(Locale.getDefault()) == "A") {
+		if ((mode ?: return).uppercase(Locale.getDefault()) == "A") {
 			transferMode = TransferType.ASCII
 			sendMsgToClient("200 OK")
 		} else if (mode.uppercase(Locale.getDefault()) == "I") {
@@ -328,7 +328,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				var fin: BufferedInputStream? = null
 				sendMsgToClient("150 Opening binary mode data connection for requested file " + f.name)
 				try {
-					fout = BufferedOutputStream(dataConnection!!.getOutputStream())
+					fout = BufferedOutputStream((dataConnection ?: return).getOutputStream())
 					fin = BufferedInputStream(FileInputStream(f))
 				} catch (e: Exception) {
 					debugOutput("Could not create file streams")
@@ -338,8 +338,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				val buf = ByteArray(1024)
 				var l: Int
 				try {
-					while (fin!!.read(buf, 0, 1024).also { l = it } != -1) {
-						fout!!.write(buf, 0, l)
+					while ((fin ?: return).read(buf, 0, 1024).also { l = it } != -1) {
+						(fout ?: return).write(buf, 0, l)
 					}
 				} catch (e: IOException) {
 					debugOutput("Could not read from or write to file streams")
@@ -347,8 +347,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				}
 
 				try {
-					fin!!.close()
-					fout!!.close()
+					(fin ?: return).close()
+					(fout ?: return).close()
 				} catch (e: IOException) {
 					debugOutput("Could not close file streams")
 					e.printStackTrace()
@@ -361,22 +361,22 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				var rout: PrintWriter? = null
 				try {
 					rin = BufferedReader(FileReader(f))
-					rout = PrintWriter(dataConnection!!.getOutputStream(), true)
+					rout = PrintWriter((dataConnection ?: return).getOutputStream(), true)
 				} catch (e: IOException) {
 					debugOutput("Could not create file streams")
 				}
 				var s: String?
 				try {
-					while (rin!!.readLine().also { s = it } != null) {
-						rout!!.println(s)
+					while ((rin ?: return).readLine().also { s = it } != null) {
+						(rout ?: return).println(s)
 					}
 				} catch (e: IOException) {
 					debugOutput("Could not read from or write to file streams")
 					e.printStackTrace()
 				}
 				try {
-					rout!!.close()
-					rin!!.close()
+					(rout ?: return).close()
+					(rin ?: return).close()
 				} catch (e: IOException) {
 					debugOutput("Could not close file streams")
 					e.printStackTrace()
@@ -401,7 +401,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					sendMsgToClient("150 Opening binary mode data connection for requested file " + f.name)
 					try {
 						fout = BufferedOutputStream(FileOutputStream(f))
-						fin = BufferedInputStream(dataConnection!!.getInputStream())
+						fin = BufferedInputStream((dataConnection ?: return).getInputStream())
 					} catch (e: Exception) {
 						debugOutput("Could not create file streams")
 					}
@@ -410,8 +410,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					val buf = ByteArray(1024)
 					var l: Int
 					try {
-						while (fin!!.read(buf, 0, 1024).also { l = it } != -1) {
-							fout!!.write(buf, 0, l)
+						while ((fin ?: return).read(buf, 0, 1024).also { l = it } != -1) {
+							(fout ?: return).write(buf, 0, l)
 						}
 					} catch (e: IOException) {
 						debugOutput("Could not read from or write to file streams")
@@ -419,8 +419,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					}
 
 					try {
-						fin!!.close()
-						fout!!.close()
+						(fin ?: return).close()
+						(fout ?: return).close()
 					} catch (e: IOException) {
 						debugOutput("Could not close file streams")
 						e.printStackTrace()
@@ -432,23 +432,23 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					var rin: BufferedReader? = null
 					var rout: PrintWriter? = null
 					try {
-						rin = BufferedReader(InputStreamReader(dataConnection!!.getInputStream()))
+						rin = BufferedReader(InputStreamReader((dataConnection ?: return).getInputStream()))
 						rout = PrintWriter(FileOutputStream(f), true)
 					} catch (e: IOException) {
 						debugOutput("Could not create file streams")
 					}
 					var s: String?
 					try {
-						while (rin!!.readLine().also { s = it } != null) {
-							rout!!.println(s)
+						while ((rin ?: return).readLine().also { s = it } != null) {
+							(rout ?: return).println(s)
 						}
 					} catch (e: IOException) {
 						debugOutput("Could not read from or write to file streams")
 						e.printStackTrace()
 					}
 					try {
-						rout!!.close()
-						rin!!.close()
+						(rout ?: return).close()
+						(rin ?: return).close()
 					} catch (e: IOException) {
 						debugOutput("Could not close file streams")
 						e.printStackTrace()
