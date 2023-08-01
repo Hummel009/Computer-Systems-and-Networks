@@ -6,7 +6,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 object Pieces {
-	var KNIGHT_MOVES = arrayOf(
+	var KNIGHT_MOVES: Array<Coordinate> = arrayOf(
 		Coordinate(2, 1),
 		Coordinate(-2, 1),
 		Coordinate(2, -1),
@@ -16,9 +16,9 @@ object Pieces {
 		Coordinate(1, -2),
 		Coordinate(-1, -2)
 	)
-	var BISHOP_MOVES = arrayOf(Coordinate(1, 1), Coordinate(-1, 1), Coordinate(1, -1), Coordinate(-1, -1))
-	var ROOK_MOVES = arrayOf(Coordinate(0, 1), Coordinate(0, -1), Coordinate(1, 0), Coordinate(-1, 0))
-	var QUEEN_MOVES = arrayOf(
+	var BISHOP_MOVES: Array<Coordinate> = arrayOf(Coordinate(1, 1), Coordinate(-1, 1), Coordinate(1, -1), Coordinate(-1, -1))
+	var ROOK_MOVES: Array<Coordinate> = arrayOf(Coordinate(0, 1), Coordinate(0, -1), Coordinate(1, 0), Coordinate(-1, 0))
+	var QUEEN_MOVES: Array<Coordinate> = arrayOf(
 		Coordinate(0, 1),
 		Coordinate(0, -1),
 		Coordinate(1, 0),

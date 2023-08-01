@@ -9,12 +9,12 @@ import java.net.Socket
 // Но клиент — это больше, чем сокет.
 class ClientView(var socket: Socket) {
 	private var listenThread = ClientViewListenThread(this)
-	var pairingThread = ClientViewPairingThread(this)
-	var fromClient = ObjectInputStream(socket.getInputStream())
-	var toClient = ObjectOutputStream(socket.getOutputStream())
+	var pairingThread: ClientViewPairingThread = ClientViewPairingThread(this)
+	var fromClient: ObjectInputStream = ObjectInputStream(socket.getInputStream())
+	var toClient: ObjectOutputStream = ObjectOutputStream(socket.getOutputStream())
 	var pair: ClientView? = null
-	var isPaired = false
-	var isWaiting = false
+	var isPaired: Boolean = false
+	var isWaiting: Boolean = false
 
 	fun sendToClient(msg: Any?) {
 		toClient.writeObject(msg)

@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream
 import java.net.Socket
 
 class Client(var game: ClientGUI, private var serverIP: String, private var serverPort: Int) {
-	var isPaired = false
-	var team = PieceTeams.NO_COLOR
+	var isPaired: Boolean = false
+	var team: PieceTeams = PieceTeams.NO_COLOR
 	lateinit var socket: Socket
 	lateinit var fromServer: ObjectInputStream
 	private lateinit var toServer: ObjectOutputStream

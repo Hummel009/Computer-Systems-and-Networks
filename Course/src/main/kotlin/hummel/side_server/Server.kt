@@ -5,7 +5,7 @@ import java.net.ServerSocket
 import java.util.concurrent.Semaphore
 
 class Server(port: Int) {
-	var socket = ServerSocket(port)
+	var socket: ServerSocket = ServerSocket(port)
 	private var listenConnectionRequestThread = ClientViewRequestThread(this)
 
 	fun listenClientConnectionRequests() {
@@ -13,8 +13,8 @@ class Server(port: Int) {
 	}
 
 	companion object {
-		var clientViews = ArrayList<ClientView>()
-		var pairingLockForTwoPair = Semaphore(1, true)
+		var clientViews: ArrayList<ClientView> = ArrayList<ClientView>()
+		var pairingLockForTwoPair: Semaphore = Semaphore(1, true)
 
 		fun sendMessage(client: ClientView, message: Message?) {
 			client.toClient.writeObject(message)
