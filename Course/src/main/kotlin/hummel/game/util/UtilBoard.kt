@@ -1,10 +1,10 @@
 package hummel.game.util
 
+import hummel.GUI
 import hummel.game.Data
 import hummel.game.board.Tile
 import hummel.game.board.TileNull
 import hummel.game.piece.*
-import java.io.File
 import java.io.IOException
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -17,18 +17,12 @@ object UtilBoard {
 		return coord.x >= Data.BOARD_LOWER_BOUND && coord.x <= Data.BOARD_UPPER_BOUND && coord.y >= Data.BOARD_LOWER_BOUND && coord.y <= Data.BOARD_UPPER_BOUND
 	}
 
-	private val imageCache: MutableMap<String, ImageIcon> = HashMap()
-
 	fun getImageOfTeamPiece(team: PieceTeams, pieceType: PieceTypes?): ImageIcon? {
-		var imagePath = "src/hummel/game/img/"
+		var imagePath = "img/"
 		if (pieceType == null) {
 			imagePath += "transparent.png"
 		} else {
-			imagePath += if (team === PieceTeams.BLACK) {
-				"black"
-			} else {
-				"white"
-			}
+			imagePath += if (team === PieceTeams.BLACK) "black" else "white"
 			if (pieceType === PieceTypes.BISHOP) {
 				imagePath += "_bishop.png"
 			} else if (pieceType === PieceTypes.KING) {
@@ -44,11 +38,12 @@ object UtilBoard {
 			}
 		}
 		try {
-			val img = File(imagePath)
-			val bufferedImage = ImageIO.read(img)
-			return ImageIcon(bufferedImage)
+			val imageStream = GUI::class.java.getResourceAsStream("/$imagePath")
+			val originalImage = ImageIO.read(imageStream)
+			println(originalImage)
+			return ImageIcon(originalImage)
 		} catch (ex: IOException) {
-			Logger.getLogger(Data::class.java.name).log(Level.SEVERE, null, ex)
+			Logger.getLogger(UtilBoard::class.java.name).log(Level.SEVERE, null, ex)
 		}
 		return null
 	}
