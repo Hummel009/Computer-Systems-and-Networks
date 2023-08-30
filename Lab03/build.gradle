@@ -3,7 +3,6 @@ import java.time.format.DateTimeFormatter
 
 plugins {
 	id 'org.jetbrains.kotlin.jvm' version '1.8.22'
-	id 'application'
 }
 
 group = 'org.example'
@@ -27,14 +26,7 @@ kotlin {
 	jvmToolchain(8)
 }
 
-application {
-	mainClassName = 'hummel.MainKt'
-}
-
 jar {
-	manifest {
-		attributes 'Main-Class': 'hummel.MainKt'
-	}
 	from(configurations.embed.collect {
 		if (it.isDirectory()) it else zipTree(it)
 	})
