@@ -4,18 +4,12 @@ import java.io.Serializable
 
 enum class PieceTeams : Serializable {
 	WHITE {
-		override fun toString(): String {
-			return "White"
-		}
+		override fun toString(): String = "White"
 	},
 	BLACK {
-		override fun toString(): String {
-			return "Black"
-		}
+		override fun toString(): String = "Black"
 	},
 	NO_COLOR {
-		override fun toString(): String {
-			return "No Color"
-		}
+		override fun toString(): String = "No Color"
 	}
 }

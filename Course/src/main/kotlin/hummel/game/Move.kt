@@ -15,7 +15,5 @@ class Move(var board: Board, var currentTile: Tile, var destinationTile: Tile) :
 		}
 	}
 
-	fun hasKilledPiece(): Boolean {
-		return killedPiece !is PieceNull
-	}
+	fun hasKilledPiece(): Boolean = killedPiece !is PieceNull
 }

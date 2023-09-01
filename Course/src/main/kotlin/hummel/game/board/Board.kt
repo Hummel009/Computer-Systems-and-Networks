@@ -14,7 +14,7 @@ class Board : Serializable {
 	private val tiles = createStandardBoardTiles()
 	private val whitePlayer = Player(PieceTeams.WHITE)
 	private val blackPlayer = Player(PieceTeams.BLACK)
-	var currentPlayer = whitePlayer
+	var currentPlayer: Player = whitePlayer
 	var chosenTile: Tile = TileNull()
 
 	fun setChosenTile2(chosenTile: Tile) {
@@ -33,9 +33,7 @@ class Board : Serializable {
 		}
 	}
 
-	fun getTile(coordinate: Coordinate): Tile {
-		return getTile(coordinate.x, coordinate.y)
-	}
+	fun getTile(coordinate: Coordinate): Tile = getTile(coordinate.x, coordinate.y)
 
 	fun getTile(x: Int, y: Int): Tile {
 		if (x < 0 || x > 7 || y < 0 || y > 7) {
@@ -60,10 +58,6 @@ class Board : Serializable {
 	}
 
 	fun changeCurrentPlayer() {
-		currentPlayer = if (currentPlayer == whitePlayer) {
-			blackPlayer
-		} else {
-			whitePlayer
-		}
+		currentPlayer = if (currentPlayer == whitePlayer) blackPlayer else whitePlayer
 	}
 }

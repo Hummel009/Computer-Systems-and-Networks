@@ -5,7 +5,7 @@ import javax.swing.*
 import javax.swing.border.EmptyBorder
 
 class PanelInfo : JPanel() {
-	val killedPiecesList: ArrayList<String> = ArrayList<String>()
+	val killedPiecesList: ArrayList<String> = ArrayList()
 	var turnLBL: JLabel = JLabel()
 
 	fun init() {

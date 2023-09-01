@@ -7,7 +7,9 @@ import hummel.side_client.Client
 import java.awt.GridLayout
 import javax.swing.JPanel
 
-class PanelBoard(private var chessBoard: Board, private var client: Client) : JPanel(GridLayout(Data.ROW_COUNT, Data.ROW_TILE_COUNT)) {
+class PanelBoard(
+	private var chessBoard: Board, private var client: Client
+) : JPanel(GridLayout(Data.ROW_COUNT, Data.ROW_TILE_COUNT)) {
 	private var boardTiles = Array<Array<PanelTile?>>(Data.ROW_COUNT) { arrayOfNulls(Data.ROW_TILE_COUNT) }
 
 	fun init() {

@@ -22,7 +22,7 @@ class ClientListenThread(private var client: Client) : Thread() {
 				when (msg.type) {
 					MessageTypes.START -> {
 						val serverChosenTeam = msg.content as PieceTeams?
-						client.team = serverChosenTeam!!
+						client.team = (serverChosenTeam ?: return)
 					}
 
 					MessageTypes.PAIRING -> {
@@ -36,7 +36,7 @@ class ClientListenThread(private var client: Client) : Thread() {
 						val board = client.game.chessBoard
 						val player = board.currentPlayer
 						val move = Move(
-							board, board.getTile(movement!!.currentCoordinate),
+							board, board.getTile((movement ?: return).currentCoordinate),
 							board.getTile(
 								movement.destinationCoordinate
 							)

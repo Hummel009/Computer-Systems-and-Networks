@@ -13,7 +13,7 @@ class Server(port: Int) {
 	}
 
 	companion object {
-		var clientViews: ArrayList<ClientView> = ArrayList<ClientView>()
+		var clientViews: ArrayList<ClientView> = ArrayList()
 		var pairingLockForTwoPair: Semaphore = Semaphore(1, true)
 
 		fun sendMessage(client: ClientView, message: Message?) {
