@@ -27,7 +27,7 @@ fun main() {
 
 class GUI : JFrame() {
 	init {
-		title = "Chess Launcher"
+		title = "Hummel009's Chess Launcher"
 		defaultCloseOperation = EXIT_ON_CLOSE
 		setBounds(100, 100, 550, 200)
 
