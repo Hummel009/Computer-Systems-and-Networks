@@ -26,6 +26,11 @@ jobs:
         with:
           arguments: build
           build-root-directory: ./Lab01
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-artifact1
+          path: ./Lab01/build/libs/*.jar
 
   build2:
     runs-on: windows-latest
@@ -36,6 +41,11 @@ jobs:
         with:
           arguments: build
           build-root-directory: ./Lab02
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-artifact2
+          path: ./Lab02/build/libs/*.jar
 
   build3:
     runs-on: windows-latest
@@ -46,6 +56,11 @@ jobs:
         with:
           arguments: build
           build-root-directory: ./Lab03
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-artifact3
+          path: ./Lab03/build/libs/*.jar
 
   build4:
     runs-on: windows-latest
@@ -56,6 +71,11 @@ jobs:
         with:
           arguments: build
           build-root-directory: ./Lab04
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-artifact4
+          path: ./Lab04/build/libs/*.jar
 
   buildc:
     runs-on: windows-latest
@@ -66,3 +86,8 @@ jobs:
         with:
           arguments: build
           build-root-directory: ./Course
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-artifactc
+          path: ./Course/build/libs/*.jar
