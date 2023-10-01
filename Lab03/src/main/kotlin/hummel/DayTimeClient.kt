@@ -1,6 +1,6 @@
 package hummel
 
-import java.net.*
+import java.net.Socket
 
 fun main() {
 	val serverAddress = "192.168.43.246"
