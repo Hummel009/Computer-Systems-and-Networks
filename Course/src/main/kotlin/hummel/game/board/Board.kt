@@ -4,8 +4,8 @@ import hummel.game.Data
 import hummel.game.Player
 import hummel.game.piece.Coordinate
 import hummel.game.piece.PieceNull
-import hummel.game.piece.PieceTypes
 import hummel.game.piece.PieceTeams
+import hummel.game.piece.PieceTypes
 import hummel.game.util.UtilBoard.createStandardBoardTiles
 import java.io.Serializable
 

@@ -1,8 +1,8 @@
 package hummel.side_client
 
 import hummel.game.Move
-import hummel.game.piece.PieceTypes
 import hummel.game.piece.PieceTeams
+import hummel.game.piece.PieceTypes
 import hummel.msg.Message
 import hummel.msg.Message.MessageTypes
 import hummel.msg.MovementMessage

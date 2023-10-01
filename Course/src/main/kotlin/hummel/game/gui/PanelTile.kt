@@ -6,8 +6,8 @@ import hummel.game.board.Board
 import hummel.game.board.TileNull
 import hummel.game.piece.Coordinate
 import hummel.game.piece.PieceNull
-import hummel.game.piece.PieceTypes
 import hummel.game.piece.PieceTeams
+import hummel.game.piece.PieceTypes
 import hummel.game.util.UtilBoard.getImageOfTeamPiece
 import hummel.game.util.UtilMove.controlCheckState
 import hummel.game.util.UtilMove.isValidMove

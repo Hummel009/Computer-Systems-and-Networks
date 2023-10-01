@@ -1,7 +1,7 @@
 package hummel.msg
 
-import java.io.Serializable
 import hummel.game.piece.Coordinate
+import java.io.Serializable
 
 class MovementMessage : Serializable {
 	var isPieceKilled: Boolean = false

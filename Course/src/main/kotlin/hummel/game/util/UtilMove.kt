@@ -4,8 +4,8 @@ import hummel.game.Pieces
 import hummel.game.board.Board
 import hummel.game.board.Tile
 import hummel.game.piece.Coordinate
-import hummel.game.piece.PieceTypes
 import hummel.game.piece.PieceTeams
+import hummel.game.piece.PieceTypes
 import hummel.game.util.UtilBoard.isValidCoordinate
 
 object UtilMove {
