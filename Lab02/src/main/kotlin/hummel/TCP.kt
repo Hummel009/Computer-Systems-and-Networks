@@ -1,17 +1,16 @@
 package hummel
 
 import java.net.InetAddress
+import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun main() {
-	// Установка соединения с сервером
+fun tcpSend() {
 	val serverAddress = InetAddress.getByName("192.168.43.177")
 	val serverPort = 6061
 	val tcpSocket = Socket(serverAddress, serverPort)
 
-	// Генерация случайных данных
 	val random = Random()
 	val packetSize = 1024
 	val data = Array(1024) { ByteArray(1024) }
@@ -19,26 +18,52 @@ fun main() {
 		random.nextBytes(data[i])
 	}
 
-	// Отправка данных и замер времени передачи
 	val time = measureTimeMillis {
 		val outputStream = tcpSocket.getOutputStream()
 		val inputStream = tcpSocket.getInputStream()
 
 		for (i in 0 until 1024) {
-			// Отправка пакета
 			outputStream.write(data[i])
 			outputStream.flush()
 
-			// Получение результата
 			val result = inputStream.read()
 			if (result != 0) {
-				println("Пакет $i: ошибка при передаче данных")
+				println("Packet $i: error!")
 			}
 		}
 	}
 
-	// Вывод результатов
 	val speed = packetSize * 1024 / (time / 1000.0)
-	println("Скорость передачи: $speed байт/с")
+	println("Speed: $speed byte/sec")
 	tcpSocket.close()
+}
+
+fun tcpReceive() {
+	val serverPort = 6061
+	val serverSocket = ServerSocket(serverPort)
+	println("Сервер запущен и ожидает подключений на порту $serverPort")
+
+	while (true) {
+		val clientSocket = serverSocket.accept()
+		println("Connection of the client: ${clientSocket.inetAddress.hostAddress}")
+
+		val inputStream = clientSocket.getInputStream()
+		val packetSize = 1024
+		val expectedData = ByteArray(packetSize)
+		val random = Random()
+
+		repeat(1024) {
+			val data = ByteArray(packetSize)
+			inputStream.read(data)
+
+			random.nextBytes(expectedData)
+			val result = if (data.contentEquals(expectedData)) 1 else 0
+
+			val outputStream = clientSocket.getOutputStream()
+			outputStream.write(result)
+			outputStream.flush()
+		}
+
+		clientSocket.close()
+	}
 }
