@@ -6,7 +6,7 @@ import java.net.Socket
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun tcpSend() {
+fun launchClientTCP() {
 	val serverAddress = InetAddress.getByName("192.168.56.1")
 	val serverPort = 6061
 	val tcpSocket = Socket(serverAddress, serverPort)
@@ -38,7 +38,7 @@ fun tcpSend() {
 	tcpSocket.close()
 }
 
-fun tcpReceive() {
+fun launchServerTCP() {
 	val serverPort = 6061
 	val serverSocket = ServerSocket(serverPort)
 	println("Server is ON and using port $serverPort")

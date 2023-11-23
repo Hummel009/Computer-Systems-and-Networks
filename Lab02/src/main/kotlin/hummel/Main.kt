@@ -2,10 +2,10 @@ package hummel
 
 fun main() {
 	val functions = mapOf(
-		"tcpSend" to ::tcpSend,
-		"tcpReceive" to ::tcpReceive,
-		"udpSend" to ::udpSend,
-		"udpReceive" to ::udpReceive,
+		"launchClientTCP" to ::launchClientTCP,
+		"launchServerTCP" to ::launchServerTCP,
+		"launchClientUDP" to ::launchClientUDP,
+		"launchServerUDP" to ::launchServerUDP,
 	)
 	while (true) {
 		print("Enter the command: ")

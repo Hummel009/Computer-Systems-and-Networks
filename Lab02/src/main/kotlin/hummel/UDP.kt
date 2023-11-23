@@ -6,7 +6,7 @@ import java.net.InetAddress
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun udpSend() {
+fun launchClientUDP() {
 	val serverAddress = InetAddress.getByName("192.168.56.1")
 	val serverPort = 9090
 	val udpSocket = DatagramSocket()
@@ -38,7 +38,7 @@ fun udpSend() {
 	udpSocket.close()
 }
 
-fun udpReceive() {
+fun launchServerUDP() {
 	val serverPort = 9090
 	val serverSocket = DatagramSocket(serverPort)
 	println("Server is ON and using port $serverPort")
