@@ -7,7 +7,7 @@ import java.util.*
 import kotlin.system.measureTimeMillis
 
 fun udpSend() {
-	val serverAddress = InetAddress.getByName("192.168.43.177")
+	val serverAddress = InetAddress.getByName("192.168.56.1")
 	val serverPort = 9090
 	val udpSocket = DatagramSocket()
 
