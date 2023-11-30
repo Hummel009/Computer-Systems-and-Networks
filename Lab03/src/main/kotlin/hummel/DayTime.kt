@@ -14,7 +14,7 @@ fun launchDayTimeServer() {
 	println("Connection from ${socket.inetAddress.hostAddress}")
 
 	val outputStream = socket.getOutputStream()
-	val date = Date().toString() + "\n"
+	val date = "${Date()}\n"
 	outputStream.write(date.toByteArray())
 
 	socket.close()

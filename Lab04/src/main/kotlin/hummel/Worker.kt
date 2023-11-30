@@ -64,7 +64,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	private fun executeCommand(c: String) {
 		val index = c.indexOf(' ')
 		val command =
-			if (index == -1) c.uppercase(Locale.getDefault()) else c.substring(0, index).uppercase(Locale.getDefault())
+			if (index == -1) c.uppercase(Locale.getDefault()) else c.take(index).uppercase(Locale.getDefault())
 		val args = if (index == -1) null else c.substring(index + 1)
 		debugOutput("Command: $command Args: $args")
 		when (command) {
@@ -176,7 +176,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 		if (args == "..") {
 			val ind = filename.lastIndexOf(fileSeparator)
 			if (ind > 0) {
-				filename = filename.substring(0, ind)
+				filename = filename.take(ind)
 			}
 		} else if (args != null && args != ".") {
 			filename = filename + fileSeparator + args
@@ -277,34 +277,38 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleMkd(args: String?) {
-		if (args != null && args.matches("^[a-zA-Z0-9]+$".toRegex())) {
-			val dir = File(currDirectory + fileSeparator + args)
-			if (!dir.mkdir()) {
-				sendMsgToClient("550 Failed to create new directory")
-				debugOutput("Failed to create new directory")
+		args?.let {
+			if (it.matches("^[a-zA-Z0-9]+$".toRegex())) {
+				val dir = File(currDirectory + fileSeparator + it)
+				if (!dir.mkdir()) {
+					sendMsgToClient("550 Failed to create new directory")
+					debugOutput("Failed to create new directory")
+				} else {
+					sendMsgToClient("250 Directory successfully created")
+				}
 			} else {
-				sendMsgToClient("250 Directory successfully created")
+				sendMsgToClient("550 Invalid name")
 			}
-		} else {
-			sendMsgToClient("550 Invalid name")
 		}
 	}
 
 	private fun handleRmd(dir: String?) {
 		var filename = currDirectory
 
-		if (dir != null && dir.matches("^[a-zA-Z0-9]+$".toRegex())) {
-			filename = filename + fileSeparator + dir
+		dir?.let {
+			if (it.matches("^[a-zA-Z0-9]+$".toRegex())) {
+				filename = filename + fileSeparator + it
 
-			val d = File(filename)
-			if (d.exists() && d.isDirectory) {
-				d.delete()
-				sendMsgToClient("250 Directory was successfully removed")
+				val d = File(filename)
+				if (d.exists() && d.isDirectory) {
+					d.delete()
+					sendMsgToClient("250 Directory was successfully removed")
+				} else {
+					sendMsgToClient("550 Requested action not taken. File unavailable.")
+				}
 			} else {
-				sendMsgToClient("550 Requested action not taken. File unavailable.")
+				sendMsgToClient("550 Invalid file name.")
 			}
-		} else {
-			sendMsgToClient("550 Invalid file name.")
 		}
 	}
 

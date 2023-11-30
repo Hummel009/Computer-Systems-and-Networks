@@ -27,7 +27,7 @@ class PanelInfo : JPanel() {
 			for ((index, item) in killedPiecesList.withIndex()) {
 				sb.append("${index + 1}. $item\r\n")
 			}
-			ScrollWindow("History", sb.toString())
+			ScrollWindow("History", "$sb")
 		}
 		content.add(turnLBL)
 		content.add(histBTN)
