@@ -7,10 +7,10 @@ fun main() {
 	while (interfaces.hasMoreElements()) {
 		val networkInterface = interfaces.nextElement()
 		val mac = networkInterface.hardwareAddress
-		mac?.let {
+		mac?.let { byteArr ->
 			print("MAC Address of " + networkInterface.name + ": ")
-			for (i in it.indices) {
-				System.out.format("%02X%s", it[i], if (i < it.size - 1) "-" else "")
+			byteArr.indices.forEach {
+				System.out.format("%02X%s", byteArr[it], if (it < byteArr.size - 1) "-" else "")
 			}
 			println()
 		}

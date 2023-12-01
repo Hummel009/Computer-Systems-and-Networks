@@ -8,11 +8,11 @@ import hummel.side_server.Server.Companion.sendMessage
 // Из-за того, что игра в шахматы — это игра 1 на 1, операция сопряжения происходит только между двумя клиентами.
 class ClientViewPairingThread(private var clientView: ClientView) : Thread() {
 	override fun run() {
-		while (this.clientView.socket.isConnected && this.clientView.isWaiting && !this.clientView.isPaired) {
+		while (clientView.socket.isConnected && clientView.isWaiting && !clientView.isPaired) {
 			try {
 				Server.pairingLockForTwoPair.acquire(1)
 				var chosenPair: ClientView? = null
-				while (this.clientView.socket.isConnected && chosenPair == null) {
+				while (clientView.socket.isConnected && chosenPair == null) {
 					for (clientView in Server.clientViews) {
 						if (clientView != this.clientView && !clientView.isPaired && clientView.isWaiting) {
 							chosenPair = clientView

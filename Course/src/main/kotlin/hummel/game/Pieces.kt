@@ -52,11 +52,6 @@ object Pieces {
 		PAWN_MOVES[PieceTeams.BLACK] = blackPawnMoves
 	}
 
-	fun getPawnStartPosY(team: PieceTeams): Int {
-		return if (team === PieceTeams.WHITE) {
-			WHITE_PAWNS_START_Y_POS
-		} else {
-			BLACK_PAWNS_START_Y_POS
-		}
-	}
+	fun getPawnStartPosY(team: PieceTeams): Int =
+		if (team == PieceTeams.WHITE) WHITE_PAWNS_START_Y_POS else BLACK_PAWNS_START_Y_POS
 }

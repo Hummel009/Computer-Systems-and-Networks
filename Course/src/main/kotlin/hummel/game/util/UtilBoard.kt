@@ -13,9 +13,8 @@ import javax.swing.ImageIcon
 
 
 object UtilBoard {
-	fun isValidCoordinate(coord: Coordinate): Boolean {
-		return coord.x >= Data.BOARD_LOWER_BOUND && coord.x <= Data.BOARD_UPPER_BOUND && coord.y >= Data.BOARD_LOWER_BOUND && coord.y <= Data.BOARD_UPPER_BOUND
-	}
+	fun isValidCoordinate(coord: Coordinate): Boolean =
+		coord.x >= Data.BOARD_LOWER_BOUND && coord.x <= Data.BOARD_UPPER_BOUND && coord.y >= Data.BOARD_LOWER_BOUND && coord.y <= Data.BOARD_UPPER_BOUND
 
 	fun getImageOfTeamPiece(team: PieceTeams, pieceType: PieceTypes?): ImageIcon? {
 		var imagePath = "img/"

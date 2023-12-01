@@ -34,7 +34,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 
 	init {
 		currDirectory = System.getProperty("user.dir") + "/test"
-		this.root = System.getProperty("user.dir")
+		root = System.getProperty("user.dir")
 	}
 
 	override fun run() {
@@ -100,9 +100,9 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 		} else {
 			(dataOutWriter ?: return).print(
 				"""
-	$msg
-	
-	""".trimIndent()
+				$msg
+				
+				""".trimIndent()
 			)
 		}
 	}
@@ -196,24 +196,20 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 			sendMsgToClient("425 No data connection was established")
 		} else {
 			val dirContent = nlstHelper(args)
-			if (dirContent == null) {
-				sendMsgToClient("550 File does not exist.")
-			} else {
+			dirContent?.let { arr ->
 				sendMsgToClient("125 Opening ASCII mode data connection for file list.")
-				for (i in dirContent.indices) {
-					sendDataMsgToClient(dirContent[i])
-				}
+				arr.forEach { sendDataMsgToClient(it) }
 				sendMsgToClient("226 Transfer complete.")
 				closeDataConnection()
+			} ?: run {
+				sendMsgToClient("550 File does not exist.")
 			}
 		}
 	}
 
 	private fun nlstHelper(args: String?): Array<String?>? {
 		var filename = currDirectory
-		if (args != null) {
-			filename = filename + fileSeparator + args
-		}
+		args?.let { filename = filename + fileSeparator + it }
 
 		val f = File(filename)
 		return if (f.exists() && f.isDirectory) {
@@ -244,9 +240,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 		sendMsgToClient("200 Command OK")
 	}
 
-	private fun handlePwd() {
-		sendMsgToClient("257 \"$currDirectory\"")
-	}
+	private fun handlePwd(): Unit = sendMsgToClient("257 \"$currDirectory\"")
 
 	private fun handlePasv() {
 		val myIp = "127.0.0.1"
@@ -267,9 +261,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 		quitCommandLoop = true
 	}
 
-	private fun handleSyst() {
-		sendMsgToClient("215 COMP4621 FTP Server Homebrew")
-	}
+	private fun handleSyst(): Unit = sendMsgToClient("215 COMP4621 FTP Server Homebrew")
 
 	private fun handleFeat() {
 		sendMsgToClient("211-Extensions supported:")
@@ -313,13 +305,17 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleType(mode: String?) {
-		if ((mode ?: return).uppercase(Locale.getDefault()) == "A") {
-			transferMode = TransferType.ASCII
-			sendMsgToClient("200 OK")
-		} else if (mode.uppercase(Locale.getDefault()) == "I") {
-			transferMode = TransferType.BINARY
-			sendMsgToClient("200 OK")
-		} else sendMsgToClient("504 Not OK")
+		mode?.let {
+			if (it.uppercase(Locale.getDefault()) == "A") {
+				transferMode = TransferType.ASCII
+				sendMsgToClient("200 OK")
+			} else if (it.uppercase(Locale.getDefault()) == "I") {
+				transferMode = TransferType.BINARY
+				sendMsgToClient("200 OK")
+			} else {
+				sendMsgToClient("504 Not OK")
+			}
+		}
 	}
 
 	private fun handleRetr(file: String?) {
@@ -392,9 +388,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleStor(file: String?) {
-		if (file == null) {
-			sendMsgToClient("501 No filename given")
-		} else {
+		file?.let {
 			val f = File(currDirectory + fileSeparator + file)
 			if (f.exists()) {
 				sendMsgToClient("550 File already exists")
@@ -405,7 +399,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					sendMsgToClient("150 Opening binary mode data connection for requested file " + f.name)
 					try {
 						fout = BufferedOutputStream(FileOutputStream(f))
-						fin = BufferedInputStream((dataConnection ?: return).getInputStream())
+						fin = BufferedInputStream((dataConnection ?: return@handleStor).getInputStream())
 					} catch (e: Exception) {
 						debugOutput("Could not create file streams")
 					}
@@ -414,8 +408,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					val buf = ByteArray(1024)
 					var l: Int
 					try {
-						while ((fin ?: return).read(buf, 0, 1024).also { l = it } != -1) {
-							(fout ?: return).write(buf, 0, l)
+						while ((fin ?: return@handleStor).read(buf, 0, 1024).also { l = it } != -1) {
+							(fout ?: return@handleStor).write(buf, 0, l)
 						}
 					} catch (e: IOException) {
 						debugOutput("Could not read from or write to file streams")
@@ -423,8 +417,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					}
 
 					try {
-						(fin ?: return).close()
-						(fout ?: return).close()
+						(fin ?: return@handleStor).close()
+						(fout ?: return@handleStor).close()
 					} catch (e: IOException) {
 						debugOutput("Could not close file streams")
 						e.printStackTrace()
@@ -436,23 +430,23 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					var rin: BufferedReader? = null
 					var rout: PrintWriter? = null
 					try {
-						rin = BufferedReader(InputStreamReader((dataConnection ?: return).getInputStream()))
+						rin = BufferedReader(InputStreamReader((dataConnection ?: return@handleStor).getInputStream()))
 						rout = PrintWriter(FileOutputStream(f), true)
 					} catch (e: IOException) {
 						debugOutput("Could not create file streams")
 					}
 					var s: String?
 					try {
-						while ((rin ?: return).readLine().also { s = it } != null) {
-							(rout ?: return).println(s)
+						while ((rin ?: return@handleStor).readLine().also { s = it } != null) {
+							(rout ?: return@handleStor).println(s)
 						}
 					} catch (e: IOException) {
 						debugOutput("Could not read from or write to file streams")
 						e.printStackTrace()
 					}
 					try {
-						(rout ?: return).close()
-						(rin ?: return).close()
+						(rout ?: return@handleStor).close()
+						(rin ?: return@handleStor).close()
 					} catch (e: IOException) {
 						debugOutput("Could not close file streams")
 						e.printStackTrace()
@@ -461,6 +455,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				}
 			}
 			closeDataConnection()
+		} ?: run {
+			sendMsgToClient("501 No filename given")
 		}
 	}
 

@@ -14,21 +14,19 @@ fun launchClientTCP() {
 	val random = Random()
 	val packetSize = 1024
 	val data = Array(1024) { ByteArray(1024) }
-	for (i in 0 until 1024) {
-		random.nextBytes(data[i])
-	}
+	data.forEach { random.nextBytes(it) }
 
 	val time = measureTimeMillis {
 		val outputStream = tcpSocket.getOutputStream()
 		val inputStream = tcpSocket.getInputStream()
 
-		for (i in 0 until 1024) {
-			outputStream.write(data[i])
+		data.indices.forEach {
+			outputStream.write(data[it])
 			outputStream.flush()
 
 			val result = inputStream.read()
 			if (result != 0) {
-				println("Packet $i: error!")
+				println("Packet $it: error!")
 			}
 		}
 	}
