@@ -17,8 +17,8 @@ fun launchClientUDP() {
 	data.forEach { random.nextBytes(it) }
 
 	val time = measureTimeMillis {
-		data.indices.forEach {
-			val packet = DatagramPacket(data[it], data[it].size, serverAddress, serverPort)
+		data.forEachIndexed { i, item ->
+			val packet = DatagramPacket(item, item.size, serverAddress, serverPort)
 			udpSocket.send(packet)
 
 			val buffer = ByteArray(1)
@@ -26,7 +26,7 @@ fun launchClientUDP() {
 			udpSocket.receive(responsePacket)
 			val result = buffer[0].toInt()
 			if (result != 0) {
-				println("Packet $it: error!")
+				println("Packet $i: error!")
 			}
 		}
 	}

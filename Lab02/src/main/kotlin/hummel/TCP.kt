@@ -20,13 +20,13 @@ fun launchClientTCP() {
 		val outputStream = tcpSocket.getOutputStream()
 		val inputStream = tcpSocket.getInputStream()
 
-		data.indices.forEach {
-			outputStream.write(data[it])
+		data.forEachIndexed { i, item ->
+			outputStream.write(item)
 			outputStream.flush()
 
 			val result = inputStream.read()
 			if (result != 0) {
-				println("Packet $it: error!")
+				println("Packet $i: error!")
 			}
 		}
 	}
