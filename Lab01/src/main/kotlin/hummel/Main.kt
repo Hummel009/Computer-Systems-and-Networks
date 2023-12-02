@@ -9,10 +9,7 @@ fun main() {
 		val mac = networkInterface.hardwareAddress
 		mac?.let {
 			print("MAC Address of " + networkInterface.name + ": ")
-			it.forEachIndexed { i, item ->
-				System.out.format("%02X%s", item, if (i < it.size - 1) "-" else "")
-			}
-			println()
+			println(it.joinToString("-") { byte -> "%02X".format(byte) })
 		}
 	}
 }
