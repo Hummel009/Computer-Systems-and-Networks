@@ -18,26 +18,10 @@ jobs:
         with:
           java-version: '21'
           distribution: temurin
-      - name: Build appLab1
+      - name: Build with Gradle
         uses: gradle/gradle-build-action@main
         with:
-          arguments: :appLab1:build
-      - name: Build appLab2
-        uses: gradle/gradle-build-action@main
-        with:
-          arguments: :appLab2:build
-      - name: Build appLab3
-        uses: gradle/gradle-build-action@main
-        with:
-          arguments: :appLab3:build
-      - name: Build appLab4
-        uses: gradle/gradle-build-action@main
-        with:
-          arguments: :appLab4:build
-      - name: Build appCourse
-        uses: gradle/gradle-build-action@main
-        with:
-          arguments: :appCourse:build
+          arguments: build
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
