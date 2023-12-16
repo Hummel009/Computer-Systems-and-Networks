@@ -2,7 +2,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 plugins {
-	id("org.jetbrains.kotlin.jvm") version "1.9.21"
+	id("org.jetbrains.kotlin.jvm")
 	id("application")
 }
 
