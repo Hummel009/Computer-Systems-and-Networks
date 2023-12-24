@@ -78,7 +78,7 @@ class ClientGUI(serverIP: String, serverPort: Int) {
 		bottomGameMenu.init()
 		if (client.team === PieceTeams.WHITE) {
 			bottomGameMenu.turnLBL.text = "Your Turn"
-			bottomGameMenu.turnLBL.foreground = Color.BLACK
+			bottomGameMenu.turnLBL.foreground = Color.WHITE
 		} else {
 			bottomGameMenu.turnLBL.text = "Enemy Turn"
 			bottomGameMenu.turnLBL.foreground = Color.RED
