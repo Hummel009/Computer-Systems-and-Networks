@@ -233,7 +233,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 	}
 
 	private fun handleEPort(args: String?) {
-		val splitArgs = (args ?: return).split("\\|".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		val splitArgs = (args ?: return).split("[|]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 		val ipAddress = splitArgs[2]
 		val port = splitArgs[3].toInt()
 		openDataConnectionActive(ipAddress, port)
@@ -244,7 +244,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 
 	private fun handlePasv() {
 		val myIp = "127.0.0.1"
-		val myIpSplit = myIp.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+		val myIpSplit = myIp.split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 		val p1 = dataPort / 256
 		val p2 = dataPort % 256
 		sendMsgToClient("227 Entering Passive Mode (" + myIpSplit[0] + "," + myIpSplit[1] + "," + myIpSplit[2] + "," + myIpSplit[3] + "," + p1 + "," + p2 + ")")
