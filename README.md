@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Hummel009_Computer-Systems-and-Networks)
+
 Мои лабораторные работы для BSUIR/БГУИР (белорусский государственный университет информатики и радиоэлектроники).
 
 Предмет - KSiS/КСиС (компьютерные системы и сети).
