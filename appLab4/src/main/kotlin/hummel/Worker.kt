@@ -50,8 +50,8 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 			e.printStackTrace()
 		} finally {
 			try {
-				(controlIn ?: return).close()
-				(controlOutWriter ?: return).close()
+				controlIn?.close()
+				controlOutWriter?.close()
 				controlSocket.close()
 				debugOutput("Sockets closed and worker stopped")
 			} catch (e: IOException) {
@@ -293,8 +293,11 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 
 				val d = File(filename)
 				if (d.exists() && d.isDirectory) {
-					d.delete()
-					sendMsgToClient("250 Directory was successfully removed")
+					if (d.delete()) {
+						sendMsgToClient("250 Directory was successfully removed")
+					} else {
+						sendMsgToClient("250 Directory wasn't successfully removed")
+					}
 				} else {
 					sendMsgToClient("550 Requested action not taken. File unavailable.")
 				}

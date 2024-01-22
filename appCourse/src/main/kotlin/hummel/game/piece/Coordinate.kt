@@ -3,10 +3,6 @@ package hummel.game.piece
 import java.io.Serializable
 
 class Coordinate(val x: Int, val y: Int) : Serializable {
-	override fun toString(): String = "[X:$x, Y:$y]"
-
-	override fun equals(other: Any?): Boolean = ((other as Coordinate?)!!.x == x) && (other!!.y == y)
-
 	operator fun plus(coord: Coordinate): Coordinate = Coordinate(x + coord.x, y + coord.y)
 
 	override fun hashCode(): Int {
@@ -14,4 +10,18 @@ class Coordinate(val x: Int, val y: Int) : Serializable {
 		result = 31 * result + y
 		return result
 	}
+
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (javaClass != other?.javaClass) return false
+
+		other as Coordinate
+
+		if (x != other.x) return false
+		if (y != other.y) return false
+
+		return true
+	}
+
+	override fun toString(): String = "Coordinate(x=$x, y=$y)"
 }

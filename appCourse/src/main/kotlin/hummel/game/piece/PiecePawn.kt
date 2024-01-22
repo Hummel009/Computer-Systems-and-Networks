@@ -11,7 +11,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 		val possibleMoves: MutableList<Move> = ArrayList()
 		val currentTile = board.getTile(currentCoord)
 		var destinationTile: Tile
-		for (coord in Pieces.PAWN_MOVES[team]!!["Normal"]!!) {
+		for (coord in Pieces.PAWN_MOVES.getValue(team)["Normal"]!!) {
 			if (!UtilBoard.isValidCoordinate(currentCoord.plus(coord))) {
 				continue
 			}
@@ -21,7 +21,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 			}
 		}
 		if (currentTile.coordinate.y == Pieces.getPawnStartPosY(team)) {
-			for (coord in Pieces.PAWN_MOVES[team]!!["Start"]!!) {
+			for (coord in Pieces.PAWN_MOVES.getValue(team)["Start"]!!) {
 				if (!UtilBoard.isValidCoordinate(currentCoord.plus(coord))) {
 					continue
 				}
@@ -31,7 +31,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 				}
 			}
 		}
-		for (coord in Pieces.PAWN_MOVES[team]!!["Attack"]!!) {
+		for (coord in Pieces.PAWN_MOVES.getValue(team)["Attack"]!!) {
 			if (!UtilBoard.isValidCoordinate(currentCoord.plus(coord))) {
 				continue
 			}
