@@ -3,9 +3,9 @@ package hummel
 import java.io.IOException
 import java.net.ServerSocket
 
-const val controlPort: Int = 1025
-var welcomeSocket: ServerSocket = ServerSocket(controlPort)
-var serverRunning: Boolean = true
+private const val controlPort: Int = 1025
+private var welcomeSocket: ServerSocket = ServerSocket(controlPort)
+private var serverRunning: Boolean = true
 
 fun main() {
 	println("FTP Server started listening on port $controlPort")

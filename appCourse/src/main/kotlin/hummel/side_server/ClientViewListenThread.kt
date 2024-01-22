@@ -18,16 +18,7 @@ class ClientViewListenThread(private var clientView: ClientView) : Thread() {
 					}
 
 					MessageTypes.MOVE, MessageTypes.CHECK -> (clientView.pair ?: return).sendToClient(msg)
-					MessageTypes.END -> {
-						clientView.isPaired = false
-						clientView.isWaiting = false
-						(clientView.pair ?: return).isWaiting = false
-						(clientView.pair ?: return).isPaired = false
-						(clientView.pair ?: return).pair = null
-						clientView.pair = null
-					}
-
-					MessageTypes.LEAVE -> {
+					MessageTypes.END, MessageTypes.LEAVE -> {
 						clientView.isPaired = false
 						clientView.isWaiting = false
 						(clientView.pair ?: return).isWaiting = false

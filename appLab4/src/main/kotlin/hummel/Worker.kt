@@ -5,6 +5,11 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.util.*
 
+private const val notCreateFileStream = "Could not create file streams"
+private const val notReadWriteFileStream = "Could not read from or write to file streams"
+private const val notCloseFileStream = "Could not close file streams"
+private const val closeData = "226 File transfer successful. Closing data connection."
+
 class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thread() {
 	private val debugMode = true
 
@@ -334,7 +339,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					fout = BufferedOutputStream((dataConnection ?: return).getOutputStream())
 					fin = BufferedInputStream(FileInputStream(f))
 				} catch (e: Exception) {
-					debugOutput("Could not create file streams")
+					debugOutput(notCreateFileStream)
 				}
 				debugOutput("Starting file transmission of " + f.name)
 
@@ -345,7 +350,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 						(fout ?: return).write(buf, 0, l)
 					}
 				} catch (e: IOException) {
-					debugOutput("Could not read from or write to file streams")
+					debugOutput(notReadWriteFileStream)
 					e.printStackTrace()
 				}
 
@@ -353,11 +358,11 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					(fin ?: return).close()
 					(fout ?: return).close()
 				} catch (e: IOException) {
-					debugOutput("Could not close file streams")
+					debugOutput(notCloseFileStream)
 					e.printStackTrace()
 				}
 				debugOutput("Completed file transmission of " + f.name)
-				sendMsgToClient("226 File transfer successful. Closing data connection.")
+				sendMsgToClient(closeData)
 			} else {
 				sendMsgToClient("150 Opening ASCII mode data connection for requested file " + f.name)
 				var rin: BufferedReader? = null
@@ -366,7 +371,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					rin = BufferedReader(FileReader(f))
 					rout = PrintWriter((dataConnection ?: return).getOutputStream(), true)
 				} catch (e: IOException) {
-					debugOutput("Could not create file streams")
+					debugOutput(notCreateFileStream)
 				}
 				var s: String?
 				try {
@@ -374,17 +379,17 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 						(rout ?: return).println(s)
 					}
 				} catch (e: IOException) {
-					debugOutput("Could not read from or write to file streams")
+					debugOutput(notReadWriteFileStream)
 					e.printStackTrace()
 				}
 				try {
 					(rout ?: return).close()
 					(rin ?: return).close()
 				} catch (e: IOException) {
-					debugOutput("Could not close file streams")
+					debugOutput(notCloseFileStream)
 					e.printStackTrace()
 				}
-				sendMsgToClient("226 File transfer successful. Closing data connection.")
+				sendMsgToClient(closeData)
 			}
 		}
 		closeDataConnection()
@@ -404,7 +409,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 						fout = BufferedOutputStream(FileOutputStream(f))
 						fin = BufferedInputStream((dataConnection ?: return@handleStor).getInputStream())
 					} catch (e: Exception) {
-						debugOutput("Could not create file streams")
+						debugOutput(notCreateFileStream)
 					}
 					debugOutput("Start receiving file " + f.name)
 
@@ -415,7 +420,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 							(fout ?: return@handleStor).write(buf, 0, l)
 						}
 					} catch (e: IOException) {
-						debugOutput("Could not read from or write to file streams")
+						debugOutput(notReadWriteFileStream)
 						e.printStackTrace()
 					}
 
@@ -423,11 +428,11 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 						(fin ?: return@handleStor).close()
 						(fout ?: return@handleStor).close()
 					} catch (e: IOException) {
-						debugOutput("Could not close file streams")
+						debugOutput(notCloseFileStream)
 						e.printStackTrace()
 					}
 					debugOutput("Completed receiving file " + f.name)
-					sendMsgToClient("226 File transfer successful. Closing data connection.")
+					sendMsgToClient(closeData)
 				} else {
 					sendMsgToClient("150 Opening ASCII mode data connection for requested file " + f.name)
 					var rin: BufferedReader? = null
@@ -436,7 +441,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 						rin = BufferedReader(InputStreamReader((dataConnection ?: return@handleStor).getInputStream()))
 						rout = PrintWriter(FileOutputStream(f), true)
 					} catch (e: IOException) {
-						debugOutput("Could not create file streams")
+						debugOutput(notCreateFileStream)
 					}
 					var s: String?
 					try {
@@ -444,17 +449,17 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 							(rout ?: return@handleStor).println(s)
 						}
 					} catch (e: IOException) {
-						debugOutput("Could not read from or write to file streams")
+						debugOutput(notReadWriteFileStream)
 						e.printStackTrace()
 					}
 					try {
 						(rout ?: return@handleStor).close()
 						(rin ?: return@handleStor).close()
 					} catch (e: IOException) {
-						debugOutput("Could not close file streams")
+						debugOutput(notCloseFileStream)
 						e.printStackTrace()
 					}
-					sendMsgToClient("226 File transfer successful. Closing data connection.")
+					sendMsgToClient(closeData)
 				}
 			}
 			closeDataConnection()

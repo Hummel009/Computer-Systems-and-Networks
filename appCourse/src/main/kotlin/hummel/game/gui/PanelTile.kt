@@ -39,10 +39,10 @@ class PanelTile(boardPanel: PanelBoard, var coordinate: Coordinate, chessBoard: 
 					return
 				}
 				if (!chessBoard.hasChosenTile()) {
-					if (chessBoard.getTile(coordinate).hasPiece()) {
-						if (chessBoard.currentPlayer.team !== chessBoard.getTile(coordinate).piece.team) {
-							return
-						}
+					val hasPiece = chessBoard.getTile(coordinate).hasPiece()
+					val notOfThisTeam = chessBoard.currentPlayer.team !== chessBoard.getTile(coordinate).piece.team
+					if (hasPiece && notOfThisTeam) {
+						return
 					}
 					chessBoard.getTile(coordinate).let { chessBoard.setChosenTile2(it) }
 				} else {
@@ -65,21 +65,19 @@ class PanelTile(boardPanel: PanelBoard, var coordinate: Coordinate, chessBoard: 
 						chessBoard.changeCurrentPlayer()
 						client.game.bottomGameMenu.turnLBL.text = "Enemy Turn"
 						client.game.bottomGameMenu.turnLBL.foreground = Color.RED
-						if (move.hasKilledPiece()) {
-							if (move.killedPiece.type === PieceTypes.KING) {
-								val winnerTeam: PieceTeams =
-									if (move.killedPiece.team === PieceTeams.BLACK) PieceTeams.WHITE else PieceTeams.BLACK
-								JOptionPane.showMessageDialog(null, "Winner: $winnerTeam")
-								val message = Message(Message.MessageTypes.END)
-								message.content = null
-								client.sendToServer(message)
-							}
+						if (move.hasKilledPiece() && move.killedPiece.type === PieceTypes.KING) {
+							val winnerTeam: PieceTeams =
+								if (move.killedPiece.team === PieceTeams.BLACK) PieceTeams.WHITE else PieceTeams.BLACK
+							JOptionPane.showMessageDialog(null, "Winner: $winnerTeam")
+							val message = Message(Message.MessageTypes.END)
+							message.content = null
+							client.sendToServer(message)
 						}
 					} else {
-						if (destinationTile.hasPiece()) {
-							if (chessBoard.currentPlayer.team !== chessBoard.getTile(coordinate).piece.team) {
-								return
-							}
+						val hasPiece = destinationTile.hasPiece()
+						val notOfThisTeam = chessBoard.currentPlayer.team !== chessBoard.getTile(coordinate).piece.team
+						if (hasPiece && notOfThisTeam) {
+							return
 						}
 						chessBoard.setChosenTile2(destinationTile)
 					}
@@ -127,10 +125,8 @@ class PanelTile(boardPanel: PanelBoard, var coordinate: Coordinate, chessBoard: 
 		} else if (coordinate.x % 2 == 0 && coordinate.y % 2 == 1 || coordinate.x % 2 == 1 && coordinate.y % 2 == 0) {
 			background = Data.cellLight
 		}
-		if (board.hasChosenTile()) {
-			if (coordinate == board.chosenTile.coordinate) {
-				background = Data.cellHover
-			}
+		if (board.hasChosenTile() && (coordinate == board.chosenTile.coordinate)) {
+			background = Data.cellHover
 		}
 	}
 }

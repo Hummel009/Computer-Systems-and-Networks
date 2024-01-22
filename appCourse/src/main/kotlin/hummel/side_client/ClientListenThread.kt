@@ -43,16 +43,14 @@ class ClientListenThread(private var client: Client) : Thread() {
 						)
 						player.makeMove(board, move)
 						client.game.boardPanel.updateBoardGUI(client.game.chessBoard)
-						if (move.hasKilledPiece()) {
-							if (move.killedPiece.type === PieceTypes.KING) {
-								val winnerTeam: PieceTeams =
-									if (move.killedPiece.team === PieceTeams.BLACK) PieceTeams.WHITE else PieceTeams.BLACK
-								JOptionPane.showMessageDialog(null, "Winner: $winnerTeam")
-								val message = Message(MessageTypes.END)
-								message.content = null
-								client.sendToServer(message)
-								break
-							}
+						if (move.hasKilledPiece() && (move.killedPiece.type === PieceTypes.KING)) {
+							val winnerTeam: PieceTeams =
+								if (move.killedPiece.team === PieceTeams.BLACK) PieceTeams.WHITE else PieceTeams.BLACK
+							JOptionPane.showMessageDialog(null, "Winner: $winnerTeam")
+							val message = Message(MessageTypes.END)
+							message.content = null
+							client.sendToServer(message)
+							break
 						}
 						board.changeCurrentPlayer()
 						client.game.bottomGameMenu.turnLBL.text = "Your Turn"

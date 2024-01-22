@@ -17,23 +17,17 @@ object UtilBoard {
 		coord.x >= Data.BOARD_LOWER_BOUND && coord.x <= Data.BOARD_UPPER_BOUND && coord.y >= Data.BOARD_LOWER_BOUND && coord.y <= Data.BOARD_UPPER_BOUND
 
 	fun getImageOfTeamPiece(team: PieceTeams, pieceType: PieceTypes?): ImageIcon? {
-		var imagePath = "img/"
-		if (pieceType == null) {
-			imagePath += "transparent.png"
+		val imagePath = "img/" + if (pieceType == null) {
+			"transparent.png"
 		} else {
-			imagePath += if (team === PieceTeams.BLACK) "black" else "white"
-			if (pieceType === PieceTypes.BISHOP) {
-				imagePath += "_bishop.png"
-			} else if (pieceType === PieceTypes.KING) {
-				imagePath += "_king.png"
-			} else if (pieceType === PieceTypes.QUEEN) {
-				imagePath += "_queen.png"
-			} else if (pieceType === PieceTypes.KNIGHT) {
-				imagePath += "_knight.png"
-			} else if (pieceType === PieceTypes.PAWN) {
-				imagePath += "_pawn.png"
-			} else if (pieceType === PieceTypes.ROOK) {
-				imagePath += "_rook.png"
+			if (team === PieceTeams.BLACK) "black" else "white" + when (pieceType) {
+				PieceTypes.BISHOP -> "_bishop.png"
+				PieceTypes.KING -> "_king.png"
+				PieceTypes.QUEEN -> "_queen.png"
+				PieceTypes.KNIGHT -> "_knight.png"
+				PieceTypes.PAWN -> "_pawn.png"
+				PieceTypes.ROOK -> "_rook.png"
+				PieceTypes.NULL -> ""
 			}
 		}
 		try {

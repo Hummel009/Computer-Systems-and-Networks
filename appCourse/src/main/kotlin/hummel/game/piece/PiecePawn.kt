@@ -36,10 +36,8 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 				continue
 			}
 			destinationTile = board.getTile(currentCoord.plus(coord))
-			if (destinationTile.hasPiece()) {
-				if (destinationTile.piece.team !== team) {
-					Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
-				}
+			if (destinationTile.hasPiece() && (destinationTile.piece.team !== team)) {
+				Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
 			}
 		}
 		return possibleMoves

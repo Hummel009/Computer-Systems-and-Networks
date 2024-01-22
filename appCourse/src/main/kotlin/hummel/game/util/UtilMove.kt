@@ -30,11 +30,10 @@ object UtilMove {
 					continue
 				}
 				destinationTile = board.getTile(currentCoord.plus(coord))
-				if (destinationTile.hasPiece()) {
-					if (destinationTile.piece.team !== team && destinationTile.piece.type === PieceTypes.KNIGHT) {
-						return true
-					}
-				}
+				val hasPiece = destinationTile.hasPiece()
+				val notOfThisTeam = destinationTile.piece.team !== team
+				val isKnight = destinationTile.piece.type === PieceTypes.KNIGHT
+				return hasPiece && (notOfThisTeam && isKnight)
 			}
 		}
 		if (currentCoord != null) {
@@ -79,11 +78,10 @@ object UtilMove {
 					continue
 				}
 				destinationTile = board.getTile(currentCoord.plus(coord))
-				if (destinationTile.hasPiece()) {
-					if (destinationTile.piece.team !== team && destinationTile.piece.type === PieceTypes.PAWN) {
-						return true
-					}
-				}
+				val isPawn = destinationTile.piece.type === PieceTypes.PAWN
+				val notOfThisTeam = destinationTile.piece.team !== team
+				val hasPiece = destinationTile.hasPiece()
+				return hasPiece && (notOfThisTeam && isPawn)
 			}
 		}
 		return false
