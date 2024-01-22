@@ -1,4 +1,13 @@
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=code_smells)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=sqale_rating)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=security_rating)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=bugs)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=vulnerabilities)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=duplicated_lines_density)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=reliability_rating)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=alert_status)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=sqale_index)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Hummel009_Computer-Systems-and-Networks&metric=ncloc)](https://sonarcloud.io/summary/overall?id=Hummel009_Computer-Systems-and-Networks)
 
 Мои лабораторные работы для BSUIR/БГУИР (белорусский государственный университет информатики и радиоэлектроники).
 
