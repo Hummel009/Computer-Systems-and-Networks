@@ -21,7 +21,7 @@ fun launchDayTimeServer() {
 }
 
 fun launchDayTimeClient() {
-	val serverAddress = "192.168.56.1"
+	val serverAddress = "127.0.0.1"
 	val serverPort = 13
 
 	val socket = Socket(serverAddress, serverPort)

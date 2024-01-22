@@ -3,15 +3,15 @@ package hummel
 import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
-import java.util.*
+import java.security.SecureRandom
 import kotlin.system.measureTimeMillis
 
 fun launchClientTCP() {
-	val serverAddress = InetAddress.getByName("192.168.56.1")
+	val serverAddress = InetAddress.getByName("127.0.0.1")
 	val serverPort = 6061
 	val tcpSocket = Socket(serverAddress, serverPort)
 
-	val random = Random()
+	val random = SecureRandom()
 	val packetSize = 1024
 	val data = Array(1024) { ByteArray(1024) }
 	data.forEach { random.nextBytes(it) }
@@ -48,7 +48,7 @@ fun launchServerTCP() {
 		val inputStream = clientSocket.getInputStream()
 		val packetSize = 1024
 		val expectedData = ByteArray(packetSize)
-		val random = Random()
+		val random = SecureRandom()
 
 		repeat(1024) {
 			val data = ByteArray(packetSize)
