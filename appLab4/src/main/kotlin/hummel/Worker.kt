@@ -470,7 +470,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 
 	private fun debugOutput(msg: String) {
 		if (debugMode) {
-			println("Thread " + threadId() + ": " + msg)
+			println("Thread " + getId() + ": " + msg)
 		}
 	}
 }
