@@ -13,7 +13,7 @@ class ClientViewRequestThread(private var server: Server) : Thread() {
 				val clientView = ClientView(socket)
 				clientView.listen()
 				Server.clientViews.add(clientView)
-			} catch (ex: IOException) {
+			} catch (_: IOException) {
 				println("There is an error occurred when the new client being accepted.")
 			}
 		}

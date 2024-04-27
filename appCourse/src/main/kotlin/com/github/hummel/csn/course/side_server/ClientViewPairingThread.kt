@@ -38,7 +38,7 @@ class ClientViewPairingThread(private var clientView: ClientView) : Thread() {
 					sleep(1000)
 				}
 				Server.pairingLockForTwoPair.release(1)
-			} catch (ex: InterruptedException) {
+			} catch (_: InterruptedException) {
 				println("Pairing thread could not been acquired 1 permit. There is an error occurred there.")
 			}
 		}

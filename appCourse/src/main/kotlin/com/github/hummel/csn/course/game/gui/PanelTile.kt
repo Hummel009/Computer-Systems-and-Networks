@@ -48,7 +48,7 @@ class PanelTile(boardPanel: PanelBoard, var coordinate: Coordinate, chessBoard: 
 				} else {
 					val destinationTile = chessBoard.getTile(coordinate)
 					if (isValidMove(chessBoard, destinationTile)) {
-						val move = Move(chessBoard, chessBoard.chosenTile, destinationTile)
+						val move = Move(chessBoard.chosenTile, destinationTile)
 						chessBoard.currentPlayer.makeMove(chessBoard, move)
 						if (move.hasKilledPiece()) {
 							client.game.bottomGameMenu.killedPiecesList.add(move.killedPiece.toString())

@@ -18,10 +18,10 @@ class PieceQueen(team: PieceTeams) : Piece(team, PieceTypes.QUEEN) {
 				destinationCoordinate = destinationCoordinate.plus(coord)
 				destinationTile = board.getTile(destinationCoordinate)
 				if (!destinationTile.hasPiece()) {
-					Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+					Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 				} else {
 					if (destinationTile.piece.team !== team) {
-						Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+						Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 					}
 					break
 				}

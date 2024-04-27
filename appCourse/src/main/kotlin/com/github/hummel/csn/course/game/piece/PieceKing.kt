@@ -19,10 +19,10 @@ class PieceKing(team: PieceTeams) : Piece(team, PieceTypes.KING) {
 			}
 			destinationTile = board.getTile(destinationCoordinate)
 			if (!destinationTile.hasPiece()) {
-				Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+				Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 			} else {
 				if (destinationTile.piece.team !== team) {
-					Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+					Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 				}
 			}
 		}

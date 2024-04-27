@@ -338,7 +338,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				try {
 					fout = BufferedOutputStream((dataConnection ?: return).getOutputStream())
 					fin = BufferedInputStream(FileInputStream(f))
-				} catch (e: Exception) {
+				} catch (_: Exception) {
 					debugOutput(notCreateFileStream)
 				}
 				debugOutput("Starting file transmission of " + f.name)
@@ -370,7 +370,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 				try {
 					rin = BufferedReader(FileReader(f))
 					rout = PrintWriter((dataConnection ?: return).getOutputStream(), true)
-				} catch (e: IOException) {
+				} catch (_: IOException) {
 					debugOutput(notCreateFileStream)
 				}
 				var s: String?
@@ -408,7 +408,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					try {
 						fout = BufferedOutputStream(FileOutputStream(f))
 						fin = BufferedInputStream((dataConnection ?: return@handleStor).getInputStream())
-					} catch (e: Exception) {
+					} catch (_: Exception) {
 						debugOutput(notCreateFileStream)
 					}
 					debugOutput("Start receiving file " + f.name)
@@ -440,7 +440,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 					try {
 						rin = BufferedReader(InputStreamReader((dataConnection ?: return@handleStor).getInputStream()))
 						rout = PrintWriter(FileOutputStream(f), true)
-					} catch (e: IOException) {
+					} catch (_: IOException) {
 						debugOutput(notCreateFileStream)
 					}
 					var s: String?
@@ -468,6 +468,7 @@ class Worker(private val controlSocket: Socket, private val dataPort: Int) : Thr
 		}
 	}
 
+	@Suppress("DEPRECATION")
 	private fun debugOutput(msg: String) {
 		if (debugMode) {
 			println("Thread " + getId() + ": " + msg)

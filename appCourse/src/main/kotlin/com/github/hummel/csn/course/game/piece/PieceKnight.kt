@@ -16,10 +16,10 @@ class PieceKnight(team: PieceTeams) : Piece(team, PieceTypes.KNIGHT) {
 			}
 			destinationTile = board.getTile(currentCoord.plus(coord))
 			if (!destinationTile.hasPiece()) {
-				possibleMoves.add(Move(board, board.getTile(currentCoord), destinationTile))
+				possibleMoves.add(Move(board.getTile(currentCoord), destinationTile))
 			} else {
 				if (destinationTile.piece.team !== team) {
-					possibleMoves.add(Move(board, board.getTile(currentCoord), destinationTile))
+					possibleMoves.add(Move(board.getTile(currentCoord), destinationTile))
 				}
 			}
 		}

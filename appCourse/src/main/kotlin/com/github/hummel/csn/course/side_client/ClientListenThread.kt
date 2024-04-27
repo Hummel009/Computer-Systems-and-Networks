@@ -36,7 +36,7 @@ class ClientListenThread(private var client: Client) : Thread() {
 						val board = client.game.chessBoard
 						val player = board.currentPlayer
 						val move = Move(
-							board, board.getTile((movement ?: return).currentCoordinate),
+							board.getTile((movement ?: return).currentCoordinate),
 							board.getTile(
 								movement.destinationCoordinate
 							)
@@ -59,7 +59,7 @@ class ClientListenThread(private var client: Client) : Thread() {
 
 					MessageTypes.CHECK -> {
 						val checkStateTeam = msg.content as PieceTeams?
-						JOptionPane.showMessageDialog(null, "Check state for team: " + checkStateTeam.toString())
+						JOptionPane.showMessageDialog(null, "Check state for team: $checkStateTeam")
 					}
 
 					MessageTypes.LEAVE -> {
@@ -72,7 +72,7 @@ class ClientListenThread(private var client: Client) : Thread() {
 				}
 			} catch (ex: IOException) {
 				Logger.getLogger(ClientListenThread::class.java.name).log(Level.SEVERE, null, ex)
-			} catch (ex: ClassNotFoundException) {
+			} catch (_: ClassNotFoundException) {
 				println("Class Not Found")
 			}
 		}

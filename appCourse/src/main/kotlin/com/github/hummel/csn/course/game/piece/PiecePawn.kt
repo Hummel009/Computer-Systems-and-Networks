@@ -17,7 +17,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 			}
 			destinationTile = board.getTile(currentCoord.plus(coord))
 			if (!destinationTile.hasPiece()) {
-				Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+				Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 			}
 		}
 		if (currentTile.coordinate.y == Pieces.getPawnStartPosY(team)) {
@@ -27,7 +27,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 				}
 				destinationTile = board.getTile(currentCoord.plus(coord))
 				if (!destinationTile.hasPiece()) {
-					Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+					Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 				}
 			}
 		}
@@ -37,7 +37,7 @@ class PiecePawn(team: PieceTeams) : Piece(team, PieceTypes.PAWN) {
 			}
 			destinationTile = board.getTile(currentCoord.plus(coord))
 			if (destinationTile.hasPiece() && (destinationTile.piece.team !== team)) {
-				Move(board, currentTile, destinationTile).let { possibleMoves.add(it) }
+				Move(currentTile, destinationTile).let { possibleMoves.add(it) }
 			}
 		}
 		return possibleMoves
