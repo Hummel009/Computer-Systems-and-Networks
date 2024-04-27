@@ -20,7 +20,7 @@ object UtilBoard {
 		val imagePath = "img/" + if (pieceType == null) {
 			"transparent.png"
 		} else {
-			if (team === PieceTeams.BLACK) "black" else "white" + when (pieceType) {
+			(if (team == PieceTeams.BLACK) "black" else "white") + when (pieceType) {
 				PieceTypes.BISHOP -> "_bishop.png"
 				PieceTypes.KING -> "_king.png"
 				PieceTypes.QUEEN -> "_queen.png"
@@ -33,7 +33,6 @@ object UtilBoard {
 		try {
 			val imageStream = GUI::class.java.getResourceAsStream("/$imagePath")
 			val originalImage = ImageIO.read(imageStream)
-			println(originalImage)
 			return ImageIcon(originalImage)
 		} catch (ex: IOException) {
 			Logger.getLogger(UtilBoard::class.java.name).log(Level.SEVERE, null, ex)

@@ -27,7 +27,7 @@ class GUI : JFrame() {
 	init {
 		title = "Hummel009's Chess Launcher"
 		defaultCloseOperation = EXIT_ON_CLOSE
-		setBounds(100, 100, 450, 150)
+		setBounds(100, 100, 550, 200)
 
 		val panelContent = JPanel()
 		panelContent.border = EmptyBorder(5, 5, 5, 5)
